@@ -18,11 +18,25 @@ export default createGlobalStyle`
     box-sizing: border-box;
   }
 
+  :root {
+    --bg-color-0: 255, 255, 255;
+    --bg-color-1: 245, 245, 245;
+    --bg-color-2: 235, 235, 235;
+    --bg-color-3: 225, 225, 225;
+    --text-color: 0, 0, 0;
+
+    @media (prefers-color-scheme: dark) {
+      --bg-color-0: 35, 35, 35;
+      --bg-color-1: 55, 55, 55;
+      --bg-color-2: 75, 75, 75;
+      --bg-color-3: 95, 95, 95;
+      --text-color: 255, 255, 255;
+    }
+  }
+
+
   body {
-    background-color: #e5e5f7;
-    opacity: 0.8;
-    background-image:  radial-gradient(#444cf7 0.5px, transparent 0.5px), radial-gradient(#444cf7 0.5px, #e5e5f7 0.5px);
-    background-size: 20px 20px;
-    background-position: 0 0,10px 10px;
+    background-color: rgb(var(--bg-color-0));
+    color: rgb(var(--text-color));
   }
 `;
