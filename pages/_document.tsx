@@ -1,6 +1,6 @@
 import React from 'react';
-import Document, { DocumentContext, Head, Html, Main, NextScript } from 'next/document';
-import { ServerStyleSheet } from 'styled-components';
+import Document, {DocumentContext} from 'next/document';
+import {ServerStyleSheet} from 'styled-components';
 
 class AppDocument extends Document {
   // see: https://github.com/vercel/next.js/blob/master/examples/with-styled-components

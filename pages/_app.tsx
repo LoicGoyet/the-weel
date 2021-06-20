@@ -1,18 +1,16 @@
-import styled, { createGlobalStyle } from 'styled-components';
-import '../styles/globals.css'
-import type { AppProps } from 'next/app'
+import {createGlobalStyle} from 'styled-components';
+import '../styles/globals.css';
+import type {AppProps} from 'next/app';
 
-function MyApp({ Component, pageProps }: AppProps) {
+function MyApp({Component, pageProps}: AppProps) {
   return (
     <>
-      <GlobalStyle/>
+      <GlobalStyle />
       <Component {...pageProps} />
     </>
   );
 }
-export default MyApp
-
-
+export default MyApp;
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -22,4 +20,4 @@ const GlobalStyle = createGlobalStyle`
     background-size: 20px 20px;
     background-position: 0 0,10px 10px;
   }
-`
+`;
