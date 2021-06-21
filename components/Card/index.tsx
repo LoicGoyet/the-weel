@@ -27,8 +27,8 @@ const Card = ({children, className}: Props) => {
 export default Card;
 
 const Wrapper = styled.div`
-  --spacing: 1.5rem;
+  --padding: 1.5rem;
 
-  padding: var(--spacing);
+  padding: var(--padding);
   border-radius: 0.25rem;
 `;
