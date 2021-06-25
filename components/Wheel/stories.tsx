@@ -1,5 +1,7 @@
+import * as React from 'react';
 import Wheel, {Props} from '.';
 import {Meta, Story} from '@storybook/react';
+import {Items} from '../../data/wheel';
 
 export default {
   title: 'components/Wheel',
@@ -33,12 +35,22 @@ export default {
         },
       },
       allIds: ['item-1', 'item-2', 'item-3', 'item-4'],
+      draftedIds: [],
+      undraftedIds: ['item-1', 'item-2', 'item-3', 'item-4'],
     },
   },
+  argTypes: {onChange: {action: 'onChange'}},
 } as Meta;
 
 const Template: Story<Props> = args => {
-  return <Wheel {...args} />;
+  const [items, setItems] = React.useState(args.items);
+
+  const handleChange = (items: Items) => {
+    args.onChange(items);
+    return setItems(items);
+  };
+
+  return <Wheel {...args} items={items} onChange={handleChange} />;
 };
 
 export const Default = Template.bind({});
