@@ -9,3 +9,7 @@ export const removeItemFromArray = <T = unknown>(
 ): Array<T> => {
   return arr.filter(item => item !== itemToRm);
 };
+
+export const createCountArray = (n: number) => {
+  return Array.from(Array(n).keys());
+};

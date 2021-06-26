@@ -1,7 +1,15 @@
 import styled from 'styled-components';
 import {getIndexOfLastDrafted, Item, Items} from '../../data/wheel';
-import {pickRandomFromArr, removeItemFromArray} from '../../utils/array';
-import {getTriangleHeight, getTriangleHypotenuse} from '../../utils/math';
+import {
+  pickRandomFromArr,
+  removeItemFromArray,
+  createCountArray,
+} from '../../utils/array';
+import {
+  getPointCoorInCircle,
+  getTriangleHeight,
+  getTriangleHypotenuse,
+} from '../../utils/math';
 
 export type Props = {
   className?: string;
@@ -29,9 +37,7 @@ const Wheel = ({className, items, onChange}: Props) => {
   const triangleHypotenuse = getTriangleHypotenuse(triangleBase, itemAngle / 2);
   const triangleHeight = getTriangleHeight(triangleBase, triangleHypotenuse);
 
-  const numberOfLaps = getNumberOfLaps(items);
-
-  console.log({items, numberOfLaps});
+  const lightsLength = items.allIds.length * 2;
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -48,6 +54,7 @@ const Wheel = ({className, items, onChange}: Props) => {
       <Button onClick={handleClick} type='button'>
         Turn
       </Button>
+
       <List className={className}>
         {items.allIds.map((itemId, index) => {
           const item = items.byId[itemId] as Item;
@@ -70,6 +77,28 @@ const Wheel = ({className, items, onChange}: Props) => {
           );
         })}
       </List>
+
+      <LightWrapper>
+        <Indicator />
+
+        {createCountArray(lightsLength).map(index => {
+          if (index === 0) {
+            return null;
+          }
+
+          const degPosition = (360 / lightsLength) * index + 90;
+          const position = getPointCoorInCircle(degPosition);
+          return (
+            <Light
+              key={index}
+              style={{
+                '--pos-x': `${position.x}%`,
+                '--pos-y': `${position.y}%`,
+              }}
+            />
+          );
+        })}
+      </LightWrapper>
     </Wrapper>
   );
 };
@@ -77,9 +106,13 @@ const Wheel = ({className, items, onChange}: Props) => {
 export default Wheel;
 
 const Wrapper = styled.div`
+  /* --border-width: max(0.75vw, 6px); */
+  --border-width: 20px;
+
   aspect-ratio: 1 / 1;
   max-width: 600px;
   position: relative;
+  border-radius: 100%;
 `;
 
 const List = styled.ul`
@@ -90,9 +123,10 @@ const List = styled.ul`
   overflow: hidden;
   width: 100%;
   height: 100%;
-  border: max(0.75vw, 6px) solid white;
+  border: var(--border-width) solid white;
   margin: 0;
   position: relative;
+  background-color: rgb(var(--white));
 `;
 
 const ListItem = styled.li<{
@@ -110,7 +144,8 @@ const ListItem = styled.li<{
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translateY(-50%) rotate(var(--rotate, 0deg));
+  transform: translateY(-50%) rotate(var(--rotate, 0deg))
+    translateX(calc(var(--border-width) / 4));
   transform-origin: left center;
   transition: transform var(--spining-duration) ease-out;
 
@@ -154,8 +189,6 @@ const ListItemLabel = styled.span`
 `;
 
 const Button = styled.button`
-  --box-shadow: 0 0 6px 2px rgba(var(--grey-6), 0.3);
-
   position: absolute;
   top: 50%;
   left: 50%;
@@ -167,10 +200,69 @@ const Button = styled.button`
   border-radius: 100%;
   border: 0;
   background-color: rgb(var(--white));
-  box-shadow: var(--box-shadow);
 
   &:focus {
-    box-shadow: 0 0 0 4px rgb(var(--focus-color)), var(--box-shadow);
+    box-shadow: 0 0 0 4px rgb(var(--focus-color));
     outline: 0;
+  }
+`;
+
+const LightWrapper = styled.span`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  height: calc(100% - var(--border-width));
+  width: calc(100% - var(--border-width));
+  transform: translate(-50%, -50%);
+`;
+
+const Light = styled.span<{
+  style: {
+    '--pos-x': `${string}%`;
+    '--pos-y': `${string}%`;
+  };
+}>`
+  position: absolute;
+  height: calc(var(--border-width) - 6px);
+  width: calc(var(--border-width) - 6px);
+  border-radius: 100%;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  margin-left: var(--pos-x);
+  margin-top: var(--pos-y);
+  z-index: 1;
+
+  border: 1px solid #dcd7c5;
+  box-shadow: 0 0 20px #fbedb8;
+  background-color: #fbedb8;
+`;
+
+const Indicator = styled.span`
+  --bg-color: rgb(var(--grey-2));
+  position: absolute;
+  height: calc(var(--border-width) + 10px);
+  width: calc(var(--border-width) + 10px);
+  border-radius: 100%;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  margin-left: 50%;
+  margin-top: 0%;
+  z-index: 1;
+  background-color: var(--bg-color);
+
+  &::before {
+    content: '';
+    display: block;
+    height: 70.7106781187%;
+    width: 70.7106781187%;
+    height: 50%;
+    width: 50%;
+    position: absolute;
+    transform: translate(-50%, -50%) rotate(45deg);
+    background-color: var(--bg-color);
+    top: 50%;
+    left: 15%;
   }
 `;
