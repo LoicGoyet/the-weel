@@ -1,5 +1,6 @@
-import {useState} from 'react';
+import React, {useState} from 'react';
 import Card from '../components/Card';
+import Form from '../components/Form';
 import Layout from '../components/Layout';
 import Wheel from '../components/Wheel';
 import {Items} from '../data/wheel';
@@ -18,22 +19,10 @@ const initialItems = {
       label: 'Item 2',
       color: 'blue',
     },
-    'item-3': {
-      id: 'item-3',
-      isChecked: false,
-      label: 'Item 3',
-      color: 'green',
-    },
-    'item-4': {
-      id: 'item-4',
-      isChecked: false,
-      label: 'Item 4',
-      color: 'pink',
-    },
   },
-  allIds: ['item-1', 'item-2', 'item-3', 'item-4'],
+  allIds: ['item-1', 'item-2'],
   draftedIds: [],
-  undraftedIds: ['item-1', 'item-2', 'item-3', 'item-4'],
+  undraftedIds: ['item-1', 'item-2'],
 };
 
 const WheelPage = () => {
@@ -47,7 +36,7 @@ const WheelPage = () => {
     <Layout
       main={<Wheel items={items} onChange={handleChange} />}
       footer={<Card>footer</Card>}
-      aside='aside'
+      aside={<Form items={items} onChange={handleChange} />}
     />
   );
 };

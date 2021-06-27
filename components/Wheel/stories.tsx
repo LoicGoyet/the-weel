@@ -11,43 +11,36 @@ export default {
       byId: {
         'item-1': {
           id: 'item-1',
-          isChecked: false,
           label: 'Item 1',
           color: 'red',
         },
         'item-2': {
           id: 'item-2',
-          isChecked: false,
           label: 'Item 2',
           color: 'blue',
         },
         'item-3': {
           id: 'item-3',
-          isChecked: false,
           label: 'Item 3',
           color: 'green',
         },
         'item-4': {
           id: 'item-4',
-          isChecked: false,
           label: 'Item 4',
           color: 'pink',
         },
         'item-5': {
           id: 'item-5',
-          isChecked: false,
           label: 'Item 5',
           color: 'orange',
         },
         'item-6': {
           id: 'item-6',
-          isChecked: false,
           label: 'Item 6',
           color: 'violet',
         },
         'item-7': {
           id: 'item-7',
-          isChecked: false,
           label: 'Item 7',
           color: 'turquoise',
         },
