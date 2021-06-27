@@ -149,8 +149,7 @@ const Wrapper = styled.div<{
     '--spining-duration': `${string}ms`;
   };
 }>`
-  /* --border-width: max(0.75vw, 6px); */
-  --border-width: 20px;
+  --border-width: clamp(0.5rem, 1.25vw, 1.25rem);
   --bg-color: rgb(var(--white));
 
   aspect-ratio: 1 / 1;
@@ -273,9 +272,11 @@ const Light = styled.span<{
     '--pos-y': `${string}%`;
   };
 }>`
+  --size: calc(var(--border-width) - 4px);
+
   position: absolute;
-  height: calc(var(--border-width) - 6px);
-  width: calc(var(--border-width) - 6px);
+  height: var(--size);
+  width: var(--size);
   border-radius: 100%;
   left: 50%;
   top: 50%;
