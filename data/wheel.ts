@@ -110,3 +110,13 @@ export const pickItem = (items: Items) => {
     undraftedIds: removeItemFromArray<Item['id']>(itemDrafted, items.undraftedIds),
   };
 };
+
+export const resetItemsPicks = (items: Items) => ({
+  ...items,
+  draftedIds: [],
+  undraftedIds: items.allIds,
+});
+
+export const areAllItemsPicked = (items: Items) => {
+  return items.allIds.every(itemId => items.draftedIds.includes(itemId));
+};

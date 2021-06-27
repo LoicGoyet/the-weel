@@ -1,6 +1,13 @@
 import {useEffect, useState} from 'react';
 import styled from 'styled-components';
-import {getIndexOfLastDrafted, Item, Items, pickItem} from '../../data/wheel';
+import {
+  areAllItemsPicked,
+  getIndexOfLastDrafted,
+  Item,
+  Items,
+  pickItem,
+  resetItemsPicks,
+} from '../../data/wheel';
 import {createCountArray} from '../../utils/array';
 import {
   getPointCoorInCircle,
@@ -41,6 +48,9 @@ const Wheel = ({className, items, onChange}: Props) => {
 
   const lightsLength = items.allIds.length * 2;
 
+  const shouldDisplayPickButton = !areAllItemsPicked(items) && !isSpining;
+  const shouldDisplayResetButton = areAllItemsPicked(items) && !isSpining;
+
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsSpining(false);
@@ -49,11 +59,16 @@ const Wheel = ({className, items, onChange}: Props) => {
     return () => clearTimeout(timer);
   }, [isSpining, setIsSpining]);
 
-  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handlePickClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     const updatedItems = pickItem(items);
     setIsSpining(!!updatedItems.draftedIds.length);
     onChange(updatedItems);
+  };
+
+  const handleResetClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    onChange(resetItemsPicks(items));
   };
 
   return (
@@ -62,9 +77,19 @@ const Wheel = ({className, items, onChange}: Props) => {
         '--spining-duration': isSpining ? `${spinningDurationMs}ms` : '0ms',
       }}
     >
-      <Button onClick={handleClick} type='button' disabled={isSpining}>
-        Turn
-      </Button>
+      <ButtonWrapper>
+        {shouldDisplayPickButton && (
+          <Button onClick={handlePickClick} type='button' disabled={isSpining}>
+            Turn
+          </Button>
+        )}
+
+        {shouldDisplayResetButton && (
+          <Button onClick={handleResetClick} type='button' disabled={isSpining}>
+            Reset
+          </Button>
+        )}
+      </ButtonWrapper>
 
       <List className={className}>
         {items.allIds.map((itemId, index) => {
@@ -126,6 +151,7 @@ const Wrapper = styled.div<{
 }>`
   /* --border-width: max(0.75vw, 6px); */
   --border-width: 20px;
+  --bg-color: rgb(var(--white));
 
   aspect-ratio: 1 / 1;
   max-width: 600px;
@@ -141,10 +167,10 @@ const List = styled.ul`
   overflow: hidden;
   width: 100%;
   height: 100%;
-  border: var(--border-width) solid white;
+  border: var(--border-width) solid var(--bg-color);
   margin: 0;
   position: relative;
-  background-color: rgb(var(--white));
+  background-color: var(--bg-color);
 `;
 
 const ListItem = styled.li<{
@@ -205,18 +231,25 @@ const ListItemLabel = styled.span`
   transition-delay: var(--spining-duration);
 `;
 
-const Button = styled.button`
+const ButtonWrapper = styled.span`
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  z-index: 1;
-  appearance: none;
-  width: max(12%, 2.5rem);
+  width: max(9%, 2.5rem);
   aspect-ratio: 1 / 1;
   border-radius: 100%;
+  background-color: var(--bg-color);
+  z-index: 1;
+`;
+
+const Button = styled.button`
+  width: 100%;
+  height: 100%;
+  appearance: none;
   border: 0;
-  background-color: rgb(var(--white));
+  border-radius: 100%;
+  background-color: var(--bg-color);
 
   &:focus {
     box-shadow: 0 0 0 4px rgb(var(--focus-color));
