@@ -1,3 +1,4 @@
+import {useEffect, useState} from 'react';
 import styled from 'styled-components';
 import {getIndexOfLastDrafted, Item, Items} from '../../data/wheel';
 import {
@@ -17,6 +18,9 @@ export type Props = {
   onChange: (items: Items) => void;
 };
 
+const spinningDurationMs = 3500;
+const colorTransitionDurationMs = 200;
+
 const getNumberOfLaps = (items: Items) => {
   const completeLaps = items.draftedIds.length * 10;
   const lastDraftedIndex = getIndexOfLastDrafted(items);
@@ -30,6 +34,8 @@ const getNumberOfLaps = (items: Items) => {
 };
 
 const Wheel = ({className, items, onChange}: Props) => {
+  const [isSpining, setIsSpining] = useState(false);
+
   const length = items.allIds.length;
   const itemAngle = 360 / length;
 
@@ -39,19 +45,34 @@ const Wheel = ({className, items, onChange}: Props) => {
 
   const lightsLength = items.allIds.length * 2;
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsSpining(false);
+    }, spinningDurationMs);
+
+    return () => clearTimeout(timer);
+  }, [isSpining, setIsSpining]);
+
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     const itemDrafted = pickRandomFromArr<Item['id']>(items.undraftedIds);
-    onChange({
+    const updatedItems = {
       ...items,
       draftedIds: [...items.draftedIds, itemDrafted],
       undraftedIds: removeItemFromArray<Item['id']>(itemDrafted, items.undraftedIds),
-    });
+    };
+    setIsSpining(!!updatedItems.draftedIds.length);
+
+    onChange(updatedItems);
   };
 
   return (
-    <Wrapper>
-      <Button onClick={handleClick} type='button'>
+    <Wrapper
+      style={{
+        '--spining-duration': isSpining ? `${spinningDurationMs}ms` : '0ms',
+      }}
+    >
+      <Button onClick={handleClick} type='button' disabled={isSpining}>
         Turn
       </Button>
 
@@ -70,6 +91,9 @@ const Wheel = ({className, items, onChange}: Props) => {
                 '--rotate': `calc(${initialDegPosition}deg + ${lapsDegPosition}deg)`,
                 '--triangle-base': `${triangleBase}px`,
                 '--triangle-height': `${triangleHeight}px`,
+                '--color-transition-duration': isSpining
+                  ? `${colorTransitionDurationMs}ms`
+                  : '0ms',
               }}
             >
               <ListItemLabel>{item.label}</ListItemLabel>
@@ -105,7 +129,11 @@ const Wheel = ({className, items, onChange}: Props) => {
 
 export default Wheel;
 
-const Wrapper = styled.div`
+const Wrapper = styled.div<{
+  style: {
+    '--spining-duration': `${string}ms`;
+  };
+}>`
   /* --border-width: max(0.75vw, 6px); */
   --border-width: 20px;
 
@@ -135,10 +163,9 @@ const ListItem = styled.li<{
     '--rotate': `calc(${number}deg + ${number}deg)`;
     '--triangle-base': `${number}px`;
     '--triangle-height': `${number}px`;
+    '--color-transition-duration': `${number}ms`;
   };
 }>`
-  --spining-duration: 4.5s;
-
   display: block;
   width: 50%;
   position: absolute;
@@ -159,7 +186,7 @@ const ListItem = styled.li<{
     left: 0;
     border-style: solid;
     z-index: -1;
-    transition: border-color 200ms ease-in-out;
+    transition: border-color var(--color-transition-duration) ease-in-out;
     transition-delay: var(--spining-duration);
   }
 
