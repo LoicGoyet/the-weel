@@ -1,6 +1,4 @@
-import {v4 as uuidv4} from 'uuid';
-
-import {Item, Items} from '../../data/wheel';
+import {addNewItem, Item, Items, updateItemLabel} from '../../data/wheel';
 
 export type Props = {
   className?: string;
@@ -9,40 +7,17 @@ export type Props = {
 };
 
 const Form = ({className, items, onChange}: Props) => {
-  const handleInputChange =
-    (itemId: Item['id'], property: 'label' | 'color') =>
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      e.preventDefault();
-
-      onChange({
-        ...items,
-        byId: {
-          ...items.byId,
-          [itemId]: {
-            ...items.byId[itemId],
-            [property]: e.target.value,
-          },
-        },
-      });
-    };
+  const handleLabelChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    itemId: Item['id'],
+  ) => {
+    e.preventDefault();
+    onChange(updateItemLabel(e.target.value, itemId, items));
+  };
 
   const handleAddItemClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    const newItemId = uuidv4();
-
-    onChange({
-      ...items,
-      byId: {
-        ...items.byId,
-        [newItemId]: {
-          id: newItemId,
-          label: '',
-          color: '',
-        },
-      },
-      allIds: [...items.allIds, newItemId],
-      undraftedIds: [...items.undraftedIds, newItemId],
-    });
+    onChange(addNewItem(items));
   };
 
   return (
@@ -55,12 +30,7 @@ const Form = ({className, items, onChange}: Props) => {
             <input
               type='text'
               value={item.label}
-              onChange={handleInputChange(item.id, 'label')}
-            />
-            <input
-              type='color'
-              value={item.color}
-              onChange={handleInputChange(item.id, 'color')}
+              onChange={e => handleLabelChange(e, item.id)}
             />
           </fieldset>
         );
