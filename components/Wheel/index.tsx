@@ -1,11 +1,7 @@
 import {useEffect, useState} from 'react';
 import styled from 'styled-components';
-import {getIndexOfLastDrafted, Item, Items} from '../../data/wheel';
-import {
-  pickRandomFromArr,
-  removeItemFromArray,
-  createCountArray,
-} from '../../utils/array';
+import {getIndexOfLastDrafted, Item, Items, pickItem} from '../../data/wheel';
+import {createCountArray} from '../../utils/array';
 import {
   getPointCoorInCircle,
   getTriangleHeight,
@@ -55,14 +51,8 @@ const Wheel = ({className, items, onChange}: Props) => {
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    const itemDrafted = pickRandomFromArr<Item['id']>(items.undraftedIds);
-    const updatedItems = {
-      ...items,
-      draftedIds: [...items.draftedIds, itemDrafted],
-      undraftedIds: removeItemFromArray<Item['id']>(itemDrafted, items.undraftedIds),
-    };
+    const updatedItems = pickItem(items);
     setIsSpining(!!updatedItems.draftedIds.length);
-
     onChange(updatedItems);
   };
 

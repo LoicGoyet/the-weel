@@ -1,4 +1,5 @@
 import {v4 as uuidv4} from 'uuid';
+import {pickRandomFromArr, removeItemFromArray} from '../utils/array';
 import {fromArrToRgb, interpolateColors, RgbArray} from '../utils/colors';
 
 export type Item = {
@@ -99,4 +100,13 @@ export const updateItemColors = (items: Items) => {
       },
     };
   }, items);
+};
+
+export const pickItem = (items: Items) => {
+  const itemDrafted = pickRandomFromArr<Item['id']>(items.undraftedIds);
+  return {
+    ...items,
+    draftedIds: [...items.draftedIds, itemDrafted],
+    undraftedIds: removeItemFromArray<Item['id']>(itemDrafted, items.undraftedIds),
+  };
 };
