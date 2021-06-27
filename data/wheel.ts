@@ -1,6 +1,7 @@
 import {v4 as uuidv4} from 'uuid';
 import {pickRandomFromArr, removeItemFromArray} from '../utils/array';
 import {fromArrToRgb, interpolateColors, RgbArray} from '../utils/colors';
+import {removeKeyFromObject} from '../utils/object';
 
 export type Item = {
   id: string;
@@ -78,6 +79,16 @@ export const addNewItem = (items: Items) => {
     },
     allIds: [...items.allIds, newItemId],
     undraftedIds: [...items.undraftedIds, newItemId],
+  });
+};
+
+export const removeItem = (itemId: Item['id'], items: Items) => {
+  return updateItemColors({
+    ...items,
+    byId: removeKeyFromObject(itemId, items.byId),
+    allIds: removeItemFromArray(itemId, items.allIds),
+    undraftedIds: removeItemFromArray(itemId, items.undraftedIds),
+    draftedIds: removeItemFromArray(itemId, items.draftedIds),
   });
 };
 
