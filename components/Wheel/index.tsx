@@ -225,6 +225,7 @@ const ListItemLabel = styled.span`
   background-color: var(--color);
   font-size: max(1vw, 14px);
   line-height: 4px;
+  min-height: 4px;
   text-align: right;
   padding: 0 10%;
   transition: background-color 200ms ease-in-out;
