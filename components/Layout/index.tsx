@@ -34,7 +34,7 @@ const Layout = ({aside = <></>, main = <></>, footer = <></>}: Props) => {
             </Card>
           </header>
 
-          <div>{main}</div>
+          <MainBody>{main}</MainBody>
           <footer>{footer}</footer>
         </ContentCard>
       </Main>
@@ -103,4 +103,14 @@ const Main = styled.main`
 
 const Aside = styled.aside`
   padding-right: var(--gap);
+`;
+
+const MainBody = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  > * {
+    flex-grow: 1;
+  }
 `;
