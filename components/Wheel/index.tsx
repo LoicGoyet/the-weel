@@ -2,7 +2,6 @@ import {useEffect, useState} from 'react';
 import styled from 'styled-components';
 import {
   areAllItemsPicked,
-  getIndexOfLastDrafted,
   Item,
   Items,
   pickItem,
@@ -14,6 +13,7 @@ import {
   getTriangleHeight,
   getTriangleHypotenuse,
 } from '../../utils/math';
+import {getNumberOfLaps} from './utils/getNumberOfLaps';
 
 export type Props = {
   className?: string;
@@ -23,18 +23,6 @@ export type Props = {
 
 const spinningDurationMs = 3500;
 const colorTransitionDurationMs = 200;
-
-const getNumberOfLaps = (items: Items) => {
-  const completeLaps = items.draftedIds.length * 10;
-  const lastDraftedIndex = getIndexOfLastDrafted(items);
-
-  if (lastDraftedIndex <= 0) {
-    return completeLaps;
-  }
-
-  const partialLap = lastDraftedIndex / items.allIds.length;
-  return completeLaps + partialLap;
-};
 
 const Wheel = ({className, items, onChange}: Props) => {
   const [isSpining, setIsSpining] = useState(false);
