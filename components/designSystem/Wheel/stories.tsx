@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Wheel, {Props} from '.';
 import {Meta, Story} from '@storybook/react';
-import {Items} from '../../data/wheel';
+import {Items} from '../../../data/wheel';
 
 export default {
   title: 'components/Wheel',

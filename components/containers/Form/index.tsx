@@ -8,28 +8,26 @@ import {
   setItemAsDrafted,
   setItemAsUndrafted,
   updateItemLabel,
-} from '../../data/wheel';
-import NewPresetForm from '../NewPresetForm';
-import LoadPresetForm from '../LoadPresetForm';
-import {setPreset} from '../../services/setPreset';
+} from '../../../data/wheel';
+import NewPresetForm from '../../NewPresetForm';
+import LoadPresetForm from '../../LoadPresetForm';
+import {setPreset} from '../../../services/setPreset';
+import {useItems} from '../../../global/ItemsContext';
 
-export type Props = {
-  items: Items;
-  onChange: (items: Items) => void;
-};
+const Form = () => {
+  const {items, setItems} = useItems();
 
-const Form = ({items, onChange}: Props) => {
   const handleLabelChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     itemId: Item['id'],
   ) => {
     e.preventDefault();
-    onChange(updateItemLabel(e.target.value, itemId, items));
+    setItems(updateItemLabel(e.target.value, itemId, items));
   };
 
   const handleAddItemClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    onChange(addNewItem(items));
+    setItems(addNewItem(items));
   };
 
   const handleRemoveItemClick = (
@@ -37,14 +35,14 @@ const Form = ({items, onChange}: Props) => {
     itemId: Item['id'],
   ) => {
     e.preventDefault();
-    onChange(removeItem(itemId, items));
+    setItems(removeItem(itemId, items));
   };
 
   const handleToggleItemDraft = (itemId: Item['id']) => {
     if (getIsItemDrafted(itemId, items)) {
-      onChange(setItemAsUndrafted(itemId, items));
+      setItems(setItemAsUndrafted(itemId, items));
     } else {
-      onChange(setItemAsDrafted(itemId, items));
+      setItems(setItemAsDrafted(itemId, items));
     }
   };
 
@@ -53,7 +51,7 @@ const Form = ({items, onChange}: Props) => {
   };
 
   const handleLoadPresetSubmit = (items: Items) => {
-    onChange(items);
+    setItems(items);
   };
 
   return (

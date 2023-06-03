@@ -1,4 +1,4 @@
-import {Items, getIndexOfLastDrafted} from '../../../data/wheel';
+import {Items, getIndexOfLastDrafted} from '../../../../data/wheel';
 
 export const getNumberOfLaps = (items: Items) => {
   const completeLaps = items.draftedIds.length * 10;

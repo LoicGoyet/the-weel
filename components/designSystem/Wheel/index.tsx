@@ -6,13 +6,13 @@ import {
   Items,
   pickItem,
   resetItemsPicks,
-} from '../../data/wheel';
-import {createCountArray} from '../../utils/array';
+} from '../../../data/wheel';
+import {createCountArray} from '../../../utils/array';
 import {
   getPointCoorInCircle,
   getTriangleHeight,
   getTriangleHypotenuse,
-} from '../../utils/math';
+} from '../../../utils/math';
 import {getNumberOfLaps} from './utils/getNumberOfLaps';
 
 export type Props = {
