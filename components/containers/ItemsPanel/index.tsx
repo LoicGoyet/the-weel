@@ -12,6 +12,8 @@ import {useItems} from '../../../global/ItemsContext';
 import SidePanel from '../../designSystem/SidePanel';
 import {useSidePanel} from '../../Layout/SidePanelContext';
 import Checkbox from '../../designSystem/Checkbox';
+import InlineFieldset from '../../designSystem/InlineFieldset';
+import Input from '../../designSystem/Input';
 
 const ItemsPanel = () => {
   const {items, setItems} = useItems();
@@ -58,22 +60,18 @@ const ItemsPanel = () => {
           const isItemDrafted = getIsItemDrafted(item.id, items);
 
           return (
-            <fieldset key={item.id}>
+            <InlineFieldset key={item.id}>
               <Checkbox
                 checked={!isItemDrafted}
                 onChange={() => handleToggleItemDraft(item.id)}
               />
 
-              <input
-                type='text'
-                value={item.label}
-                onChange={e => handleLabelChange(e, item.id)}
-              />
+              <Input value={item.label} onChange={e => handleLabelChange(e, item.id)} />
 
               <button type='button' onClick={e => handleRemoveItemClick(e, item.id)}>
                 remove
               </button>
-            </fieldset>
+            </InlineFieldset>
           );
         })}
         <button type='button' onClick={handleAddItemClick}>

@@ -18,7 +18,6 @@ const Wrapper = styled.aside`
   background-color: rgba(255, 255, 255, 0.15);
   backdrop-filter: blur(5px);
   border-radius: 0.5rem;
-  padding: var(--padding);
   color: #000;
   width: 100%;
   height: 100%;
@@ -29,11 +28,7 @@ const Wrapper = styled.aside`
 
 SidePanel.Header = styled.header`
   background-color: rgb(255, 255, 255);
-  margin-top: calc(-1 * var(--padding));
-  margin-left: calc(-1 * var(--padding));
-  margin-right: calc(-1 * var(--padding));
   padding: var(--padding);
-  margin-bottom: var(--padding);
 `;
 
 SidePanel.Heading = styled.h2`
@@ -45,6 +40,7 @@ SidePanel.Heading = styled.h2`
 `;
 
 SidePanel.Body = styled.div`
-  overflow-y: auto;
+  padding: var(--padding);
+  overflow: auto;
   flex: 1;
 `;

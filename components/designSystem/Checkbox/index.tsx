@@ -33,6 +33,7 @@ const Input = styled.input`
   appearance: none;
   border-radius: 0.25em;
   margin: 0;
+  flex-shrink: 0;
 
   &:focus {
     --border-color: rgb(134, 183, 254);
