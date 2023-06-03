@@ -47,7 +47,11 @@ const ItemsPanel = () => {
 
   return (
     <SidePanel>
-      <form>
+      <SidePanel.Header>
+        <SidePanel.Heading>Configuration</SidePanel.Heading>
+      </SidePanel.Header>
+
+      <SidePanel.Body as='form'>
         {items.allIds.map(itemId => {
           const item = items.byId[itemId] as Item;
           const isItemDrafted = getIsItemDrafted(item.id, items);
@@ -78,7 +82,7 @@ const ItemsPanel = () => {
         <button type='button' onClick={() => setActivePanel('presets')}>
           Save preset
         </button>
-      </form>
+      </SidePanel.Body>
     </SidePanel>
   );
 };

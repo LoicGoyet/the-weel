@@ -21,9 +21,14 @@ const PresetsPanel = () => {
 
   return (
     <SidePanel>
-      <button onClick={() => setActivePanel('items')}>Items</button>
-      <NewPresetForm onSubmit={handlePresetSubmit} />
-      <LoadPresetForm onSubmit={handleLoadPresetSubmit} />
+      <SidePanel.Header>
+        <button onClick={() => setActivePanel('items')}>Items</button>
+      </SidePanel.Header>
+
+      <SidePanel.Body>
+        <NewPresetForm onSubmit={handlePresetSubmit} />
+        <LoadPresetForm onSubmit={handleLoadPresetSubmit} />
+      </SidePanel.Body>
     </SidePanel>
   );
 };
