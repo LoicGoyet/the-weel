@@ -2,19 +2,25 @@ import {v4 as uuidv4} from 'uuid';
 import {pickRandomFromArr, removeItemFromArray} from '../utils/array';
 import {fromArrToRgb, interpolateColors, RgbArray} from '../utils/colors';
 import {removeKeyFromObject} from '../utils/object';
+import {z} from 'zod';
 
-export type Item = {
-  id: string;
-  label: string;
-  color: string;
-};
+const Item = z.object({
+  id: z.string(),
+  label: z.string(),
+  color: z.string(),
+});
+export type Item = z.infer<typeof Item>;
 
-export type Items = {
-  byId: Record<string, Item>;
-  allIds: Array<string>;
-  draftedIds: Array<string>;
-  undraftedIds: Array<string>;
-};
+const Items = z.object({
+  byId: z.record(Item),
+  allIds: z.array(z.string()),
+  draftedIds: z.array(z.string()),
+  undraftedIds: z.array(z.string()),
+});
+export type Items = z.infer<typeof Items>;
+
+const ItemsRecord = z.record(Item);
+export type ItemsRecord = z.infer<typeof ItemsRecord>;
 
 const firstItemColorArr: RgbArray = [252, 119, 83];
 const lastItemColorArr: RgbArray = [219, 213, 110];
