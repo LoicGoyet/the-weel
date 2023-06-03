@@ -4,11 +4,18 @@ import Layout from '../components/Layout';
 import Wheel from '../components/containers/Wheel';
 import {ItemsProvider} from '../global/ItemsContext';
 import dynamic from 'next/dynamic';
+import PresetsPanel from '../components/containers/PresetsPanel';
 
 const WheelPage = () => {
   return (
     <ItemsProvider>
-      <Layout main={<Wheel />} aside={<Form />} />
+      <Layout
+        main={<Wheel />}
+        panels={{
+          items: <Form />,
+          presets: <PresetsPanel />,
+        }}
+      />
     </ItemsProvider>
   );
 };

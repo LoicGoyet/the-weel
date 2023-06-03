@@ -13,6 +13,7 @@ import NewPresetForm from '../../NewPresetForm';
 import LoadPresetForm from '../../LoadPresetForm';
 import {setPreset} from '../../../services/setPreset';
 import {useItems} from '../../../global/ItemsContext';
+import SidePanel from '../../designSystem/SidePanel';
 
 const Form = () => {
   const {items, setItems} = useItems();
@@ -55,7 +56,7 @@ const Form = () => {
   };
 
   return (
-    <React.Fragment>
+    <SidePanel>
       <form>
         {items.allIds.map(itemId => {
           const item = items.byId[itemId] as Item;
@@ -89,7 +90,7 @@ const Form = () => {
 
       <NewPresetForm onSubmit={handlePresetSubmit} />
       <LoadPresetForm onSubmit={handleLoadPresetSubmit} />
-    </React.Fragment>
+    </SidePanel>
   );
 };
 

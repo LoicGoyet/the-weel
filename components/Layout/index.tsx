@@ -1,47 +1,66 @@
 import styled from 'styled-components';
 import Card from '../Card';
 import React from 'react';
+import {SidePanelProvider} from './SidePanelContext';
 
 export type Props = {
-  aside: React.ReactNode;
   main: React.ReactNode;
+  panels: Record<string, React.ReactNode>;
 };
 
-const Layout = ({aside = <></>, main = <></>}: Props) => {
-  const [isAsideOpen, setIsAsideOpen] = React.useState(true);
-
-  const toggleIsAsideOpen = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
-    e?.preventDefault();
-    setIsAsideOpen(isAsideOpen => !isAsideOpen);
-  };
-
+const Layout = ({main = <></>, panels}: Props) => {
   return (
-    <Wrapper>
-      <Main>
-        <ContentCard>
-          <header>
-            <Card>
-              <a href='#aside' onClick={toggleIsAsideOpen}>
-                Configure
-              </a>
-            </Card>
-          </header>
+    <SidePanelProvider>
+      {({activePanel, setActivePanel, hasActivePanel}) => {
+        const handlePanelTriggerClick = (panelKey: string) => {
+          return (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+            e.preventDefault();
+            setActivePanel(panelKey);
+          };
+        };
 
-          <MainBody>{main}</MainBody>
-        </ContentCard>
-      </Main>
+        return (
+          <Wrapper>
+            <Main>
+              <ContentCard>
+                <header>
+                  <Card>
+                    <button onClick={handlePanelTriggerClick('items')}>Items</button>
+                    <button onClick={handlePanelTriggerClick('presets')}>
+                      Presets
+                    </button>
+                  </Card>
+                </header>
 
-      <Aside id='aside' style={{'--translate-x': isAsideOpen ? '0' : '100%'}}>
-        <ContentCard>
-          <div>
-            <a href='#aside' onClick={toggleIsAsideOpen}>
-              Close
-            </a>
-            {aside}
-          </div>
-        </ContentCard>
-      </Aside>
-    </Wrapper>
+                <MainBody>{main}</MainBody>
+              </ContentCard>
+            </Main>
+
+            {Object.entries(panels).map(([key, panel]) => {
+              const isOpen = activePanel === key;
+              return (
+                <Aside
+                  key={key}
+                  style={{
+                    '--translate-x': isOpen ? '0' : '100%',
+                    '--opacity': isOpen ? 1 : 0,
+                  }}
+                >
+                  {panel}
+                </Aside>
+              );
+            })}
+
+            <Backdrop
+              onClick={() => setActivePanel(null)}
+              style={{
+                '--pointer-events': hasActivePanel ? 'initial' : 'none',
+              }}
+            />
+          </Wrapper>
+        );
+      }}
+    </SidePanelProvider>
   );
 };
 
@@ -73,14 +92,21 @@ const Main = styled.main`
   height: 100%;
 `;
 
-const Aside = styled.aside<{style: {'--translate-x': '0' | `${number}%`}}>`
+const Aside = styled.div<{
+  style: {'--translate-x': '0' | `${number}%`; '--opacity': number};
+}>`
   position: fixed;
   right: 0;
   top: 0;
   height: 100%;
+  will-change: opacity transform;
   transform: translateX(var(--translate-x));
-  transition: transform 0.3s ease-in-out;
+  opacity: var(--opacity);
+  transition: 0.3s ease-in-out;
   padding: 1rem;
+  width: 100%;
+  max-width: 400px;
+  z-index: 3;
 `;
 
 const MainBody = styled.div`
@@ -91,4 +117,18 @@ const MainBody = styled.div`
   > * {
     flex-grow: 1;
   }
+`;
+
+const Backdrop = styled.div<{
+  style: {
+    '--pointer-events': 'initial' | 'none';
+  };
+}>`
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  pointer-events: var(--pointer-events);
 `;
