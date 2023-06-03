@@ -5,10 +5,9 @@ import React from 'react';
 export type Props = {
   aside: React.ReactNode;
   main: React.ReactNode;
-  footer: React.ReactNode;
 };
 
-const Layout = ({aside = <></>, main = <></>, footer = <></>}: Props) => {
+const Layout = ({aside = <></>, main = <></>}: Props) => {
   const [isAsideOpen, setIsAsideOpen] = React.useState(true);
 
   const toggleIsAsideOpen = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
@@ -29,7 +28,6 @@ const Layout = ({aside = <></>, main = <></>, footer = <></>}: Props) => {
           </header>
 
           <MainBody>{main}</MainBody>
-          <footer>{footer}</footer>
         </ContentCard>
       </Main>
 

@@ -1,5 +1,4 @@
 import React from 'react';
-import Card from '../components/Card';
 import Form from '../components/containers/Form';
 import Layout from '../components/Layout';
 import Wheel from '../components/containers/Wheel';
@@ -9,7 +8,7 @@ import dynamic from 'next/dynamic';
 const WheelPage = () => {
   return (
     <ItemsProvider>
-      <Layout main={<Wheel />} footer={<Card>footer</Card>} aside={<Form />} />
+      <Layout main={<Wheel />} aside={<Form />} />
     </ItemsProvider>
   );
 };
