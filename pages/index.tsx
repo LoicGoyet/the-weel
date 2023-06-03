@@ -1,5 +1,5 @@
 import React from 'react';
-import Form from '../components/containers/Form';
+import ItemsPanel from '../components/containers/ItemsPanel';
 import Layout from '../components/Layout';
 import Wheel from '../components/containers/Wheel';
 import {ItemsProvider} from '../global/ItemsContext';
@@ -12,7 +12,7 @@ const WheelPage = () => {
       <Layout
         main={<Wheel />}
         panels={{
-          items: <Form />,
+          items: <ItemsPanel />,
           presets: <PresetsPanel />,
         }}
       />
