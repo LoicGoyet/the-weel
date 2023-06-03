@@ -11,6 +11,7 @@ import {
 import {useItems} from '../../../global/ItemsContext';
 import SidePanel from '../../designSystem/SidePanel';
 import {useSidePanel} from '../../Layout/SidePanelContext';
+import Checkbox from '../../designSystem/Checkbox';
 
 const ItemsPanel = () => {
   const {items, setItems} = useItems();
@@ -58,8 +59,7 @@ const ItemsPanel = () => {
 
           return (
             <fieldset key={item.id}>
-              <input
-                type='checkbox'
+              <Checkbox
                 checked={!isItemDrafted}
                 onChange={() => handleToggleItemDraft(item.id)}
               />
