@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   addNewItem,
   getIsItemDrafted,
@@ -8,14 +9,16 @@ import {
   setItemAsUndrafted,
   updateItemLabel,
 } from '../../data/wheel';
+import NewPresetForm from '../NewPresetForm';
+import LoadPresetForm from '../LoadPresetForm';
+import {setPreset} from '../../services/setPreset';
 
 export type Props = {
-  className?: string;
   items: Items;
   onChange: (items: Items) => void;
 };
 
-const Form = ({className, items, onChange}: Props) => {
+const Form = ({items, onChange}: Props) => {
   const handleLabelChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     itemId: Item['id'],
@@ -45,36 +48,50 @@ const Form = ({className, items, onChange}: Props) => {
     }
   };
 
+  const handlePresetSubmit = (name: string) => {
+    setPreset(name, items);
+  };
+
+  const handleLoadPresetSubmit = (items: Items) => {
+    onChange(items);
+  };
+
   return (
-    <form className={className}>
-      {items.allIds.map(itemId => {
-        const item = items.byId[itemId] as Item;
-        const isItemDrafted = getIsItemDrafted(item.id, items);
+    <React.Fragment>
+      <form>
+        {items.allIds.map(itemId => {
+          const item = items.byId[itemId] as Item;
+          const isItemDrafted = getIsItemDrafted(item.id, items);
 
-        return (
-          <fieldset key={item.id}>
-            <input
-              type='checkbox'
-              checked={!isItemDrafted}
-              onChange={() => handleToggleItemDraft(item.id)}
-            />
+          return (
+            <fieldset key={item.id}>
+              <input
+                type='checkbox'
+                checked={!isItemDrafted}
+                onChange={() => handleToggleItemDraft(item.id)}
+              />
 
-            <input
-              type='text'
-              value={item.label}
-              onChange={e => handleLabelChange(e, item.id)}
-            />
+              <input
+                type='text'
+                value={item.label}
+                onChange={e => handleLabelChange(e, item.id)}
+              />
 
-            <button type='button' onClick={e => handleRemoveItemClick(e, item.id)}>
-              remove
-            </button>
-          </fieldset>
-        );
-      })}
-      <button type='button' onClick={handleAddItemClick}>
-        Add item
-      </button>
-    </form>
+              <button type='button' onClick={e => handleRemoveItemClick(e, item.id)}>
+                remove
+              </button>
+            </fieldset>
+          );
+        })}
+        <button type='button' onClick={handleAddItemClick}>
+          Add item
+        </button>
+        <button type='button'>Save preset</button>
+      </form>
+
+      <NewPresetForm onSubmit={handlePresetSubmit} />
+      <LoadPresetForm onSubmit={handleLoadPresetSubmit} />
+    </React.Fragment>
   );
 };
 

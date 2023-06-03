@@ -4,14 +4,14 @@ import {fromArrToRgb, interpolateColors, RgbArray} from '../utils/colors';
 import {removeKeyFromObject} from '../utils/object';
 import {z} from 'zod';
 
-const Item = z.object({
+export const Item = z.object({
   id: z.string(),
   label: z.string(),
   color: z.string(),
 });
 export type Item = z.infer<typeof Item>;
 
-const Items = z.object({
+export const Items = z.object({
   byId: z.record(Item),
   allIds: z.array(z.string()),
   draftedIds: z.array(z.string()),
@@ -19,8 +19,8 @@ const Items = z.object({
 });
 export type Items = z.infer<typeof Items>;
 
-const ItemsRecord = z.record(Item);
-export type ItemsRecord = z.infer<typeof ItemsRecord>;
+export const Presets = z.record(Items);
+export type Presets = z.infer<typeof Presets>;
 
 const firstItemColorArr: RgbArray = [252, 119, 83];
 const lastItemColorArr: RgbArray = [219, 213, 110];
