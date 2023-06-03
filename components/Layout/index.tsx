@@ -9,7 +9,7 @@ export type Props = {
 };
 
 const Layout = ({aside = <></>, main = <></>, footer = <></>}: Props) => {
-  const [isAsideOpen, setIsAsideOpen] = React.useState(false);
+  const [isAsideOpen, setIsAsideOpen] = React.useState(true);
 
   const toggleIsAsideOpen = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
     e?.preventDefault();

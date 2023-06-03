@@ -131,3 +131,23 @@ export const resetItemsPicks = (items: Items) => ({
 export const areAllItemsPicked = (items: Items) => {
   return items.allIds.every(itemId => items.draftedIds.includes(itemId));
 };
+
+export const getIsItemDrafted = (itemId: Item['id'], items: Items) => {
+  return items.draftedIds.includes(itemId);
+};
+
+export const setItemAsDrafted = (itemId: Item['id'], items: Items) => {
+  return {
+    ...items,
+    draftedIds: [...items.draftedIds, itemId],
+    undraftedIds: removeItemFromArray(itemId, items.undraftedIds),
+  };
+};
+
+export const setItemAsUndrafted = (itemId: Item['id'], items: Items) => {
+  return {
+    ...items,
+    draftedIds: removeItemFromArray(itemId, items.draftedIds),
+    undraftedIds: [...items.undraftedIds, itemId],
+  };
+};
