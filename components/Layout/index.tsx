@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import Card from '../Card';
+import React from 'react';
 
 export type Props = {
   aside: React.ReactNode;
@@ -8,27 +9,20 @@ export type Props = {
 };
 
 const Layout = ({aside = <></>, main = <></>, footer = <></>}: Props) => {
-  const handleOpenAsideClick = (
-    e: React.MouseEvent<HTMLAnchorElement, MouseEvent> | undefined,
-  ) => {
-    e?.preventDefault();
-    document.querySelector('#aside')?.scrollIntoView({behavior: 'smooth'});
-  };
+  const [isAsideOpen, setIsAsideOpen] = React.useState(false);
 
-  const handleCloseAsideClick = (
-    e: React.MouseEvent<HTMLAnchorElement, MouseEvent> | undefined,
-  ) => {
+  const toggleIsAsideOpen = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
     e?.preventDefault();
-    document.querySelector('#main')?.scrollIntoView({behavior: 'smooth'});
+    setIsAsideOpen(isAsideOpen => !isAsideOpen);
   };
 
   return (
     <Wrapper>
-      <Main id='main'>
+      <Main>
         <ContentCard>
           <header>
             <Card>
-              <a onClick={handleOpenAsideClick} href='#aside'>
+              <a href='#aside' onClick={toggleIsAsideOpen}>
                 Configure
               </a>
             </Card>
@@ -39,10 +33,10 @@ const Layout = ({aside = <></>, main = <></>, footer = <></>}: Props) => {
         </ContentCard>
       </Main>
 
-      <Aside id='aside'>
+      <Aside id='aside' style={{'--translate-x': isAsideOpen ? '0' : '100%'}}>
         <ContentCard>
           <div>
-            <a onClick={handleCloseAsideClick} href='#main'>
+            <a href='#aside' onClick={toggleIsAsideOpen}>
               Close
             </a>
             {aside}
@@ -56,35 +50,15 @@ const Layout = ({aside = <></>, main = <></>, footer = <></>}: Props) => {
 export default Layout;
 
 const Wrapper = styled.div`
-  --gap: 1rem;
-  --aside-width: max(33vw, 300px);
-
-  display: grid;
-  grid-template-columns: calc(100vw - var(--gap)) var(--aside-width);
-  grid-template-rows: calc(100vh - calc(var(--gap) * 2));
   height: 100vh;
-  gap: var(--gap);
-  overflow: auto;
-  scroll-snap-type: x mandatory;
-  scroll-margin: var(--gap);
-  padding: var(--gap) 0;
-
-  & > * {
-    scroll-snap-align: center;
-  }
-
-  @media (min-width: 60rem) {
-    grid-template-columns: 1fr var(--aside-width);
-  }
+  padding: 1rem;
 `;
 
 const ContentCard = styled(Card)`
   display: grid;
   height: 100%;
   max-height: 100%;
-  overflow-y: auto;
   grid-template-rows: auto 1fr auto;
-  grid-gap: var(--gap);
   padding-top: 0;
   padding-bottom: 0;
 
@@ -98,11 +72,17 @@ const ContentCard = styled(Card)`
 `;
 
 const Main = styled.main`
-  padding-left: var(--gap);
+  height: 100%;
 `;
 
-const Aside = styled.aside`
-  padding-right: var(--gap);
+const Aside = styled.aside<{style: {'--translate-x': '0' | `${number}%`}}>`
+  position: fixed;
+  right: 0;
+  top: 0;
+  height: 100%;
+  transform: translateX(var(--translate-x));
+  transition: transform 0.3s ease-in-out;
+  padding: 1rem;
 `;
 
 const MainBody = styled.div`
