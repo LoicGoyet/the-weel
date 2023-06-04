@@ -11,20 +11,14 @@ import {
 import {useItems} from '../../../global/ItemsContext';
 import SidePanel from '../../designSystem/SidePanel';
 import {useSidePanel} from '../../Layout/SidePanelContext';
-import Checkbox from '../../designSystem/Checkbox';
-import InlineFieldset from '../../designSystem/InlineFieldset';
-import Input from '../../designSystem/Input';
+import ItemFieldset from './partials/ItemFieldset';
 
 const ItemsPanel = () => {
   const {items, setItems} = useItems();
   const {setActivePanel} = useSidePanel();
 
-  const handleLabelChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
-    itemId: Item['id'],
-  ) => {
-    e.preventDefault();
-    setItems(updateItemLabel(e.target.value, itemId, items));
+  const handleLabelChange = (itemId: Item['id'], value: string) => {
+    setItems(updateItemLabel(value, itemId, items));
   };
 
   const handleAddItemClick = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -32,11 +26,7 @@ const ItemsPanel = () => {
     setItems(addNewItem(items));
   };
 
-  const handleRemoveItemClick = (
-    e: React.MouseEvent<HTMLButtonElement>,
-    itemId: Item['id'],
-  ) => {
-    e.preventDefault();
+  const handleItemRemove = (itemId: Item['id']) => {
     setItems(removeItem(itemId, items));
   };
 
@@ -60,20 +50,17 @@ const ItemsPanel = () => {
           const isItemDrafted = getIsItemDrafted(item.id, items);
 
           return (
-            <InlineFieldset key={item.id}>
-              <Checkbox
-                checked={!isItemDrafted}
-                onChange={() => handleToggleItemDraft(item.id)}
-              />
-
-              <Input value={item.label} onChange={e => handleLabelChange(e, item.id)} />
-
-              <button type='button' onClick={e => handleRemoveItemClick(e, item.id)}>
-                remove
-              </button>
-            </InlineFieldset>
+            <ItemFieldset
+              key={item.id}
+              item={item}
+              isDrafted={isItemDrafted}
+              onDraftToggle={handleToggleItemDraft}
+              onLabelChange={handleLabelChange}
+              onRemove={handleItemRemove}
+            />
           );
         })}
+
         <button type='button' onClick={handleAddItemClick}>
           Add item
         </button>
