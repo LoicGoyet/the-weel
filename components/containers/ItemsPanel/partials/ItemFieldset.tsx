@@ -4,6 +4,8 @@ import {Item} from '../../../../data/wheel';
 import InlineFieldset from '../../../designSystem/InlineFieldset';
 import Checkbox from '../../../designSystem/Checkbox';
 import Input from '../../../designSystem/Input';
+import Button from '../../../designSystem/Button';
+import TrashIcon from '../../../icons/TrashIcon';
 
 type Props = {
   item: Item;
@@ -44,9 +46,9 @@ const ItemFieldset = ({
 
       <Input value={item.label} onChange={handleLabelChange} />
 
-      <button type='button' onClick={handleRemove}>
-        remove
-      </button>
+      <Button onClick={handleRemove} brand='danger' isSquare>
+        <TrashIcon width='1em' height='1em' />
+      </Button>
     </InlineFieldset>
   );
 };

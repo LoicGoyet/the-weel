@@ -17,7 +17,7 @@ type SidePanelProviderProps = {
 };
 
 export const SidePanelProvider = ({children}: SidePanelProviderProps) => {
-  const [activePanel, setActivePanel] = React.useState<string | null>(null);
+  const [activePanel, setActivePanel] = React.useState<string | null>('items');
 
   const hasActivePanel = activePanel !== null;
 
