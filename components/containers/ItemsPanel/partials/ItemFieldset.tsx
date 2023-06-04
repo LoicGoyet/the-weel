@@ -1,4 +1,5 @@
 import * as React from 'react';
+import styled from 'styled-components';
 import {Item} from '../../../../data/wheel';
 import InlineFieldset from '../../../designSystem/InlineFieldset';
 import Checkbox from '../../../designSystem/Checkbox';
@@ -35,7 +36,11 @@ const ItemFieldset = ({
 
   return (
     <InlineFieldset key={item.id}>
-      <Checkbox checked={!isDrafted} onChange={handleDraftToggle} />
+      <CustomCheckbox
+        checked={!isDrafted}
+        onChange={handleDraftToggle}
+        style={{'--accent-color': item.color}}
+      />
 
       <Input value={item.label} onChange={handleLabelChange} />
 
@@ -47,3 +52,7 @@ const ItemFieldset = ({
 };
 
 export default ItemFieldset;
+
+const CustomCheckbox = styled(Checkbox)<{style: {'--accent-color': string}}>`
+  margin-right: 0.5rem;
+`;
