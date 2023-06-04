@@ -38,23 +38,33 @@ const ItemFieldset = ({
 
   return (
     <InlineFieldset key={item.id}>
-      <CustomCheckbox
+      <DraftCheckbox
         checked={!isDrafted}
         onChange={handleDraftToggle}
         style={{'--accent-color': item.color}}
       />
 
-      <Input value={item.label} onChange={handleLabelChange} />
+      <LabelInput value={item.label} onChange={handleLabelChange} />
 
-      <Button onClick={handleRemove} brand='danger' isSquare>
-        <TrashIcon width='1em' height='1em' />
-      </Button>
+      <RemoveButton onClick={handleRemove} brand='danger' isSquare>
+        <TrashIcon width='0.9rem' height='0.9rem' />
+      </RemoveButton>
     </InlineFieldset>
   );
 };
 
 export default ItemFieldset;
 
-const CustomCheckbox = styled(Checkbox)<{style: {'--accent-color': string}}>`
-  margin-right: 0.5rem;
+const DraftCheckbox = styled(Checkbox)<{style: {'--accent-color': string}}>`
+  margin-right: 1rem;
+`;
+
+const LabelInput = styled(Input)`
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+`;
+
+const RemoveButton = styled(Button)`
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
 `;
