@@ -17,6 +17,7 @@ const PresetsPanel = () => {
 
   const handleLoadPresetSubmit = (items: Items) => {
     setItems(items);
+    setActivePanel('items');
   };
 
   return (
