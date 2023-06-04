@@ -13,6 +13,7 @@ type Props = {
   onDraftToggle: (itemId: Item['id']) => void;
   onRemove: (itemId: Item['id']) => void;
   onLabelChange: (itemId: Item['id'], label: string) => void;
+  shouldRenderRemoveButton: boolean;
 };
 
 const ItemFieldset = ({
@@ -21,6 +22,7 @@ const ItemFieldset = ({
   onDraftToggle,
   onRemove,
   onLabelChange,
+  shouldRenderRemoveButton,
 }: Props) => {
   const handleDraftToggle = () => {
     onDraftToggle(item.id);
@@ -46,9 +48,11 @@ const ItemFieldset = ({
 
       <LabelInput value={item.label} onChange={handleLabelChange} />
 
-      <RemoveButton onClick={handleRemove} brand='danger' isSquare>
-        <TrashIcon width='0.9rem' height='0.9rem' />
-      </RemoveButton>
+      {shouldRenderRemoveButton ? (
+        <RemoveButton onClick={handleRemove} brand='danger' isSquare>
+          <TrashIcon width='0.9rem' height='0.9rem' />
+        </RemoveButton>
+      ) : null}
     </InlineFieldset>
   );
 };
@@ -60,8 +64,10 @@ const DraftCheckbox = styled(Checkbox)<{style: {'--accent-color': string}}>`
 `;
 
 const LabelInput = styled(Input)`
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
+  &:not(:last-child) {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
 `;
 
 const RemoveButton = styled(Button)`

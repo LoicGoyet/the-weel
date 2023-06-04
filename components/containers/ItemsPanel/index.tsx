@@ -57,6 +57,7 @@ const ItemsPanel = () => {
               onDraftToggle={handleToggleItemDraft}
               onLabelChange={handleLabelChange}
               onRemove={handleItemRemove}
+              shouldRenderRemoveButton={items.allIds.length > 2}
             />
           );
         })}
