@@ -18,7 +18,6 @@ export default Checkbox;
 const Input = styled.input`
   --background-color: rgb(255, 255, 255);
   --background-image: none;
-  --border-color: rgb(222, 226, 230);
   --size: 1.5rem;
   --accent-color: rgb(13, 110, 253);
   width: var(--size);
@@ -30,7 +29,7 @@ const Input = styled.input`
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
-  border: 1px solid var(--border-color);
+  border: none;
   appearance: none;
   border-radius: 0.25em;
   margin: 0;
