@@ -238,6 +238,7 @@ const Button = styled.button`
   border: 0;
   border-radius: 100%;
   background-color: var(--bg-color);
+  user-select: none;
 
   &:focus {
     box-shadow: 0 0 0 4px rgb(var(--focus-color));
