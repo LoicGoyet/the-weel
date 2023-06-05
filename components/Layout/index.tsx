@@ -76,13 +76,15 @@ const Wrapper = styled.div`
 `;
 
 const ContentCard = styled(Card)`
-  display: grid;
+  display: flex;
   height: 100%;
   max-height: 100%;
-  grid-template-rows: auto 1fr auto;
+  align-items: center;
+  justify-content: center;
   padding-top: 0;
   padding-bottom: 0;
   background-color: #e5e5f7;
+  position: relative;
   /* opacity: 0.8; */
   background-image: radial-gradient(
       circle at center center,
@@ -133,6 +135,7 @@ const MainBody = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-grow: 1;
 
   > * {
     flex-grow: 1;
@@ -157,6 +160,11 @@ const Header = styled.header`
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
+  position: absolute;
+  width: 100%;
+  top: 0;
+  left: 0;
+  padding: var(--padding);
 `;
 
 const Heading = styled.h1`
