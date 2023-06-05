@@ -19,7 +19,7 @@ import styled from 'styled-components';
 const ItemsPanel = () => {
   const {items, setItems} = useItems();
   const {setActivePanel} = useSidePanel();
-  const {isItemsInPreset} = usePresets();
+  const {isItemsInPreset, hasPresets} = usePresets();
 
   const handleLabelChange = (itemId: Item['id'], value: string) => {
     setItems(updateItemLabel(value, itemId, items));
@@ -68,16 +68,18 @@ const ItemsPanel = () => {
 
         <Button onClick={handleAddItemClick}>Add item</Button>
         {!isItemsInPreset ? (
-          <SaveButton onClick={() => undefined}>Save</SaveButton>
+          <SaveButton onClick={() => setActivePanel('save')}>Save</SaveButton>
         ) : null}
       </SidePanel.Body>
-      <SidePanel.BottomButton
-        brand='primary'
-        onClick={() => setActivePanel('presets')}
-        size='lg'
-      >
-        Load presets
-      </SidePanel.BottomButton>
+      {hasPresets ? (
+        <SidePanel.BottomButton
+          brand='primary'
+          onClick={() => setActivePanel('presets')}
+          size='lg'
+        >
+          Load presets
+        </SidePanel.BottomButton>
+      ) : null}
     </SidePanel>
   );
 };

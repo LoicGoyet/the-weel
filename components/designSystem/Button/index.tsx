@@ -32,7 +32,7 @@ const brands = {
 type Props = {
   className?: string;
   type?: React.ButtonHTMLAttributes<HTMLButtonElement>['type'];
-  onClick: React.ButtonHTMLAttributes<HTMLButtonElement>['onClick'];
+  onClick?: React.ButtonHTMLAttributes<HTMLButtonElement>['onClick'];
   children: React.ReactNode;
   brand?: keyof typeof brands;
   isSquare?: boolean;

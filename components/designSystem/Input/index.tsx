@@ -6,6 +6,7 @@ type Props = {
   type?: 'text' | 'password' | 'email' | 'number' | 'search' | 'tel' | 'url';
   value: React.InputHTMLAttributes<HTMLInputElement>['value'];
   onChange: React.InputHTMLAttributes<HTMLInputElement>['onChange'];
+  id?: string;
 };
 
 const Input = ({className, type = 'text', ...rest}: Props) => {

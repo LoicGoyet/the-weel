@@ -6,6 +6,7 @@ import {ItemsProvider} from '../global/ItemsContext';
 import dynamic from 'next/dynamic';
 import PresetsPanel from '../components/containers/PresetsPanel';
 import {PresetsProvider} from '../global/PresetsContext';
+import SavePanel from '../components/containers/SavePanel';
 
 const WheelPage = () => {
   return (
@@ -16,6 +17,7 @@ const WheelPage = () => {
           panels={{
             items: <ItemsPanel />,
             presets: <PresetsPanel />,
+            save: <SavePanel />,
           }}
         />
       </PresetsProvider>
