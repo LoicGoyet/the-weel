@@ -1,7 +1,7 @@
 import {Items, getIndexOfLastDrafted} from '../../../../data/wheel';
 
 export const getNumberOfLaps = (items: Items) => {
-  const completeLaps = items.draftedIds.length * 10;
+  const completeLaps = items.draftedIds.length * 4;
   const lastDraftedIndex = getIndexOfLastDrafted(items);
 
   if (lastDraftedIndex <= 0) {

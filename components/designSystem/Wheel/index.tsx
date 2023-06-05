@@ -16,8 +16,7 @@ export type Props = {
   onChange: (items: Items) => void;
 };
 
-const spinningDurationMs = 3500;
-const colorTransitionDurationMs = 200;
+const spinningDurationMs = 2500;
 
 const Wheel = ({className, items, onChange}: Props) => {
   const [isSpining, setIsSpining] = useState(false);
@@ -82,9 +81,6 @@ const Wheel = ({className, items, onChange}: Props) => {
                 '--rotate': `calc(${initialDegPosition}deg + ${lapsDegPosition}deg)`,
                 '--triangle-base': `${triangleBase}px`,
                 '--triangle-height': `${triangleHeight}px`,
-                '--color-transition-duration': isSpining
-                  ? `${colorTransitionDurationMs}ms`
-                  : '0ms',
               }}
             >
               <ListItemLabel>{item.label}</ListItemLabel>
@@ -137,7 +133,6 @@ const ListItem = styled.li<{
     '--rotate': `calc(${number}deg + ${number}deg)`;
     '--triangle-base': `${number}px`;
     '--triangle-height': `${number}px`;
-    '--color-transition-duration': `${number}ms`;
   };
 }>`
   display: block;
@@ -148,7 +143,7 @@ const ListItem = styled.li<{
   transform: translateY(-50%) rotate(var(--rotate, 0deg))
     translateX(calc(var(--border-width) / 4));
   transform-origin: left center;
-  transition: transform var(--spining-duration) ease-out;
+  transition: transform var(--spining-duration) cubic-bezier(0.05, 0.25, 0.31, 1.01);
 
   &::before,
   &::after {
