@@ -5,17 +5,20 @@ import Wheel from '../components/containers/Wheel';
 import {ItemsProvider} from '../global/ItemsContext';
 import dynamic from 'next/dynamic';
 import PresetsPanel from '../components/containers/PresetsPanel';
+import {PresetsProvider} from '../global/PresetsContext';
 
 const WheelPage = () => {
   return (
     <ItemsProvider>
-      <Layout
-        main={<Wheel />}
-        panels={{
-          items: <ItemsPanel />,
-          presets: <PresetsPanel />,
-        }}
-      />
+      <PresetsProvider>
+        <Layout
+          main={<Wheel />}
+          panels={{
+            items: <ItemsPanel />,
+            presets: <PresetsPanel />,
+          }}
+        />
+      </PresetsProvider>
     </ItemsProvider>
   );
 };

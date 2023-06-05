@@ -1,27 +1,15 @@
 import React from 'react';
-import {Items, Presets} from '../../data/wheel';
-import {getPresets} from '../../services/getPreset';
+import {Items} from '../../data/wheel';
 import styled from 'styled-components';
 import Button from '../designSystem/Button';
+import {usePresets} from '../../global/PresetsContext';
 
 type Props = {
   onSubmit: (items: Items) => void;
 };
 
 const NewPresetForm = ({onSubmit}: Props) => {
-  const [presets, setPresets] = React.useState<Presets>(getPresets());
-
-  const updatePresets = () => {
-    setPresets(getPresets());
-  };
-
-  React.useEffect(() => {
-    window.addEventListener('presetsUpdated', updatePresets);
-
-    return () => {
-      window.removeEventListener('presetsUpdated', updatePresets);
-    };
-  });
+  const {presets} = usePresets();
 
   const handlePresetClick =
     (name: string) => (e: React.MouseEvent<HTMLButtonElement>) => {

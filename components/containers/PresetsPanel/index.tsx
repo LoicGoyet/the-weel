@@ -1,18 +1,19 @@
 import * as React from 'react';
 import SidePanel from '../../designSystem/SidePanel';
 import {useSidePanel} from '../../Layout/SidePanelContext';
-import {setPreset} from '../../../services/setPreset';
 import {useItems} from '../../../global/ItemsContext';
 import {Items} from '../../../data/wheel';
 import NewPresetForm from '../../NewPresetForm';
 import LoadPresetForm from '../../LoadPresetForm';
+import {usePresets} from '../../../global/PresetsContext';
 
 const PresetsPanel = () => {
   const {setActivePanel} = useSidePanel();
+  const {addNewPreset} = usePresets();
   const {items, setItems} = useItems();
 
   const handlePresetSubmit = (name: string) => {
-    setPreset(name, items);
+    addNewPreset(name, items);
   };
 
   const handleLoadPresetSubmit = (items: Items) => {

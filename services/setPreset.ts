@@ -1,5 +1,5 @@
 import {Items, resetItemsPicks} from '../data/wheel';
-import {getPresets} from './getPreset';
+import {getPresets} from './getPresets';
 
 export const setPreset = (name: string, items: Items) => {
   const presets = getPresets();
@@ -9,5 +9,5 @@ export const setPreset = (name: string, items: Items) => {
   };
 
   window.localStorage.setItem('presets', JSON.stringify(newPresets));
-  window.dispatchEvent(new Event('presetsUpdated'));
+  return newPresets;
 };
