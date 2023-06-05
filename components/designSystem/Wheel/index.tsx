@@ -77,7 +77,7 @@ const Wheel = ({className, items, onChange}: Props) => {
             <ListItem
               key={item.id}
               style={{
-                '--color': isItemDrafted ? 'rgb(var(--bg-color-1))' : item.color,
+                '--color': isItemDrafted ? 'rgb(var(--grey-1))' : item.color,
                 '--rotate': `calc(${initialDegPosition}deg + ${lapsDegPosition}deg)`,
                 '--triangle-base': `${triangleBase}px`,
                 '--triangle-height': `${triangleHeight}px`,
@@ -125,6 +125,7 @@ const List = styled.ul`
   margin: 0;
   position: relative;
   background-color: var(--bg-color);
+  color: rgb(var(--black));
 `;
 
 const ListItem = styled.li<{
