@@ -2,6 +2,8 @@ import styled from 'styled-components';
 import Card from '../designSystem/Card';
 import React from 'react';
 import {SidePanelProvider} from './SidePanelContext';
+import Button from '../designSystem/Button';
+import GearIcon from '../icons/GearIcon';
 
 export type Props = {
   main: React.ReactNode;
@@ -23,14 +25,16 @@ const Layout = ({main = <></>, panels}: Props) => {
           <Wrapper>
             <Main>
               <ContentCard>
-                <header>
-                  <Card>
-                    <button onClick={handlePanelTriggerClick('items')}>Items</button>
-                    <button onClick={handlePanelTriggerClick('presets')}>
-                      Presets
-                    </button>
-                  </Card>
-                </header>
+                <Header>
+                  <Heading>The wheel.</Heading>
+                  <Button
+                    onClick={handlePanelTriggerClick('items')}
+                    isSquare
+                    brand='transparent'
+                  >
+                    <GearIcon width='1em' height='1em' />
+                  </Button>
+                </Header>
 
                 <MainBody>{main}</MainBody>
               </ContentCard>
@@ -131,4 +135,14 @@ const Backdrop = styled.div<{
   width: 100%;
   height: 100%;
   pointer-events: var(--pointer-events);
+`;
+
+const Header = styled.header`
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+`;
+
+const Heading = styled.h1`
+  margin: 0;
 `;
