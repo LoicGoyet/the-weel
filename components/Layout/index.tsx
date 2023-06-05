@@ -68,7 +68,7 @@ export default Layout;
 
 const Wrapper = styled.div`
   height: 100vh;
-  padding: 1rem;
+  padding: 0.5rem;
 `;
 
 const ContentCard = styled(Card)`

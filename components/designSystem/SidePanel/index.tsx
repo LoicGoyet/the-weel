@@ -46,7 +46,14 @@ SidePanel.Body = styled.div`
   padding: var(--padding);
   overflow: auto;
   flex: 1;
-  color: rgb(255, 255, 255);
+
+  @media (prefers-color-scheme: light) {
+    color: rgb(0, 0, 0);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    color: rgb(255, 255, 255);
+  }
 `;
 
 SidePanel.BottomButton = styled(Button).attrs({

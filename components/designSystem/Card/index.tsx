@@ -30,5 +30,5 @@ const Wrapper = styled.div`
   --padding: 1.5rem;
 
   padding: var(--padding);
-  border-radius: 0.25rem;
+  border-radius: 0.5rem;
 `;
