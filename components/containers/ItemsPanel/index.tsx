@@ -13,10 +13,13 @@ import SidePanel from '../../designSystem/SidePanel';
 import {useSidePanel} from '../../Layout/SidePanelContext';
 import ItemFieldset from './partials/ItemFieldset';
 import Button from '../../designSystem/Button';
+import {usePresets} from '../../../global/PresetsContext';
+import styled from 'styled-components';
 
 const ItemsPanel = () => {
   const {items, setItems} = useItems();
   const {setActivePanel} = useSidePanel();
+  const {isItemsInPreset} = usePresets();
 
   const handleLabelChange = (itemId: Item['id'], value: string) => {
     setItems(updateItemLabel(value, itemId, items));
@@ -64,6 +67,9 @@ const ItemsPanel = () => {
         })}
 
         <Button onClick={handleAddItemClick}>Add item</Button>
+        {!isItemsInPreset ? (
+          <SaveButton onClick={() => undefined}>Save</SaveButton>
+        ) : null}
       </SidePanel.Body>
       <SidePanel.BottomButton
         brand='primary'
@@ -77,3 +83,7 @@ const ItemsPanel = () => {
 };
 
 export default ItemsPanel;
+
+const SaveButton = styled(Button).attrs({brand: 'warning'})`
+  margin-left: 1rem;
+`;
