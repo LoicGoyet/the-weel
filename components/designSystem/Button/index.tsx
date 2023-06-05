@@ -22,6 +22,11 @@ const brands = {
     color: 'rgb(0, 0, 0)',
     outlineColor: 'rgb(255, 230, 156)',
   },
+  transparent: {
+    backgroundColor: 'rgba(255, 255, 255, 0)',
+    color: 'currentColor',
+    outlineColor: 'rgb(158, 197, 254)',
+  },
 } as const;
 
 type Props = {
@@ -39,10 +44,13 @@ const getStaticSize = (size: 'md' | 'lg', isSquare: boolean) => {
   return size === 'md' ? '2.25rem' : '3rem';
 };
 
-const getPadding = (size: 'md' | 'lg', isSquare: boolean) => {
-  const xPadding = size === 'md' ? '0.75rem' : '1rem';
-  const yPadding = size === 'md' ? '0.375rem' : '0.5rem';
-  return isSquare ? yPadding : `${yPadding} ${xPadding}`;
+const getPaddingY = (size: 'md' | 'lg') => {
+  return size === 'md' ? '0.375rem' : '0.5rem';
+};
+
+const getPaddingX = (size: 'md' | 'lg', isSquare: boolean) => {
+  if (isSquare) return getPaddingY(size);
+  return size === 'md' ? '0.75rem' : '1rem';
 };
 
 const Button = ({
@@ -63,7 +71,8 @@ const Button = ({
         '--background-color': brands[brand].backgroundColor,
         '--color': brands[brand].color,
         '--outline-color': brands[brand].outlineColor,
-        '--padding': getPadding(size, isSquare),
+        '--padding-x': getPaddingX(size, isSquare),
+        '--padding-y': getPaddingY(size),
         '--width': getStaticSize(size, isSquare),
         '--height': getStaticSize(size, isSquare),
         '--line-height': size === 'md' ? '1.5' : '2',
@@ -81,13 +90,14 @@ export const Wrapper = styled.button<{
     '--background-color': string;
     '--color': string;
     '--outline-color': string;
-    '--padding': string;
+    '--padding-x': string;
+    '--padding-y': string;
     '--width': string;
     '--height': string;
     '--line-height': string;
   };
 }>`
-  padding: var(--padding);
+  padding: var(--padding-y) var(--padding-x);
   width: var(--width);
   height: var(--height);
   font-size: 1rem;
