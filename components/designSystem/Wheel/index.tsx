@@ -7,12 +7,7 @@ import {
   pickItem,
   resetItemsPicks,
 } from '../../../data/wheel';
-import {createCountArray} from '../../../utils/array';
-import {
-  getPointCoorInCircle,
-  getTriangleHeight,
-  getTriangleHypotenuse,
-} from '../../../utils/math';
+import {getTriangleHeight, getTriangleHypotenuse} from '../../../utils/math';
 import {getNumberOfLaps} from './utils/getNumberOfLaps';
 
 export type Props = {
@@ -34,10 +29,7 @@ const Wheel = ({className, items, onChange}: Props) => {
   const triangleHypotenuse = getTriangleHypotenuse(triangleBase, itemAngle / 2);
   const triangleHeight = getTriangleHeight(triangleBase, triangleHypotenuse);
 
-  const lightsLength = items.allIds.length * 2;
-
-  const shouldDisplayPickButton = !areAllItemsPicked(items) && !isSpining;
-  const shouldDisplayResetButton = areAllItemsPicked(items) && !isSpining;
+  const shouldDisplayPickButton = !areAllItemsPicked(items);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -66,17 +58,13 @@ const Wheel = ({className, items, onChange}: Props) => {
       }}
     >
       <ButtonWrapper>
-        {shouldDisplayPickButton && (
-          <Button onClick={handlePickClick} type='button' disabled={isSpining}>
-            Turn
-          </Button>
-        )}
-
-        {shouldDisplayResetButton && (
-          <Button onClick={handleResetClick} type='button' disabled={isSpining}>
-            Reset
-          </Button>
-        )}
+        <Button
+          onClick={shouldDisplayPickButton ? handlePickClick : handleResetClick}
+          type='button'
+          disabled={isSpining}
+        >
+          {shouldDisplayPickButton ? 'Turn' : 'Reset'}
+        </Button>
       </ButtonWrapper>
 
       <List className={className}>
@@ -90,7 +78,7 @@ const Wheel = ({className, items, onChange}: Props) => {
             <ListItem
               key={item.id}
               style={{
-                '--color': isItemDrafted ? 'rgb(var(--grey-4))' : item.color,
+                '--color': isItemDrafted ? 'rgb(var(--bg-color-1))' : item.color,
                 '--rotate': `calc(${initialDegPosition}deg + ${lapsDegPosition}deg)`,
                 '--triangle-base': `${triangleBase}px`,
                 '--triangle-height': `${triangleHeight}px`,
@@ -107,24 +95,6 @@ const Wheel = ({className, items, onChange}: Props) => {
 
       <LightWrapper>
         <Indicator />
-
-        {createCountArray(lightsLength).map(index => {
-          if (index === 0) {
-            return null;
-          }
-
-          const degPosition = (360 / lightsLength) * index + 90;
-          const position = getPointCoorInCircle(degPosition);
-          return (
-            <Light
-              key={index}
-              style={{
-                '--pos-x': `${position.x}%`,
-                '--pos-y': `${position.y}%`,
-              }}
-            />
-          );
-        })}
       </LightWrapper>
     </Wrapper>
   );
@@ -144,6 +114,7 @@ const Wrapper = styled.div<{
   max-width: 600px;
   position: relative;
   border-radius: 100%;
+  box-shadow: 0px 15px 35px rgba(0, 0, 0, 0.15);
 `;
 
 const List = styled.ul`
@@ -189,7 +160,6 @@ const ListItem = styled.li<{
     left: 0;
     border-style: solid;
     z-index: -1;
-    transition: border-color var(--color-transition-duration) ease-in-out;
     transition-delay: var(--spining-duration);
   }
 
@@ -215,8 +185,8 @@ const ListItemLabel = styled.span`
   min-height: 4px;
   text-align: right;
   padding: 0 10%;
-  transition: background-color 200ms ease-in-out;
   transition-delay: var(--spining-duration);
+  user-select: none;
 `;
 
 const ButtonWrapper = styled.span`
@@ -239,10 +209,21 @@ const Button = styled.button`
   border-radius: 100%;
   background-color: var(--bg-color);
   user-select: none;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+  transition: 0.3s ease-in-out;
+  cursor: pointer;
+
+  &:hover {
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.4);
+  }
 
   &:focus {
-    box-shadow: 0 0 0 4px rgb(var(--focus-color));
     outline: 0;
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.4);
+  }
+
+  &:disabled {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
   }
 `;
 
@@ -253,30 +234,6 @@ const LightWrapper = styled.span`
   height: calc(100% - var(--border-width));
   width: calc(100% - var(--border-width));
   transform: translate(-50%, -50%);
-`;
-
-const Light = styled.span<{
-  style: {
-    '--pos-x': `${string}%`;
-    '--pos-y': `${string}%`;
-  };
-}>`
-  --size: calc(var(--border-width) - 4px);
-
-  position: absolute;
-  height: var(--size);
-  width: var(--size);
-  border-radius: 100%;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  margin-left: var(--pos-x);
-  margin-top: var(--pos-y);
-  z-index: 1;
-
-  border: 1px solid #dcd7c5;
-  box-shadow: 0 0 20px #fbedb8;
-  background-color: #fbedb8;
 `;
 
 const Indicator = styled.span`
@@ -292,6 +249,7 @@ const Indicator = styled.span`
   margin-top: 0%;
   z-index: 1;
   background-color: var(--bg-color);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
 
   &::before {
     content: '';
