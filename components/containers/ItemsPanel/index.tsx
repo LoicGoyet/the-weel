@@ -12,6 +12,7 @@ import {useItems} from '../../../global/ItemsContext';
 import SidePanel from '../../designSystem/SidePanel';
 import {useSidePanel} from '../../Layout/SidePanelContext';
 import ItemFieldset from './partials/ItemFieldset';
+import Button from '../../designSystem/Button';
 
 const ItemsPanel = () => {
   const {items, setItems} = useItems();
@@ -62,13 +63,15 @@ const ItemsPanel = () => {
           );
         })}
 
-        <button type='button' onClick={handleAddItemClick}>
-          Add item
-        </button>
-        <button type='button' onClick={() => setActivePanel('presets')}>
-          Save preset
-        </button>
+        <Button onClick={handleAddItemClick}>Add item</Button>
       </SidePanel.Body>
+      <SidePanel.BottomButton
+        brand='primary'
+        onClick={() => setActivePanel('presets')}
+        size='lg'
+      >
+        Load presets
+      </SidePanel.BottomButton>
     </SidePanel>
   );
 };
