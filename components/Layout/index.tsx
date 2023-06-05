@@ -82,6 +82,22 @@ const ContentCard = styled(Card)`
   grid-template-rows: auto 1fr auto;
   padding-top: 0;
   padding-bottom: 0;
+  background-color: #e5e5f7;
+  /* opacity: 0.8; */
+  background-image: radial-gradient(
+      circle at center center,
+      rgb(var(--bg-color-0)),
+      rgb(var(--bg-color-1))
+    ),
+    repeating-radial-gradient(
+      circle at center center,
+      rgb(var(--bg-color-0)),
+      rgb(var(--bg-color-0)),
+      10px,
+      transparent 30px,
+      transparent 40px
+    );
+  background-blend-mode: multiply;
 
   & > *:first-child {
     padding-top: var(--padding);
